@@ -9,18 +9,21 @@ w_time_spent = 3;
 % avg number of patrons during each half time
 num_women = 197;
 
-% RATES lambda per patron type
-lamda_womens_br = num_women/90;
-
+total_time = 90;
 trials = 1000;
+
+% RATES lambda per patron type
+lamda = num_people/total_time;
+
 % Arrival Times
-w_arrival_times = expon(lamda_womens_br, 1000);
+arrival_times = expon(lamda, trials);
 
 % Cummulative arrival times on a timeline
-arrival_times = cumsum(w_arrival_times);
+arrival_times = cumsum(arrival_times);
 
-temp_a = arrival_times > 90;
-[value, index] = find(temp_a, 1);
+% Truncating arrivals after 90 minu
+post_game_arrivals = arrival_times > 90;
+[~, index] = find(post_game_arrivals, 1);
 arrival_times = arrival_times(1:index-1);
 
 % depart = ()
