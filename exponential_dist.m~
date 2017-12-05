@@ -1,0 +1,69 @@
+
+% Bathroom units
+womens_bathrooms = 7;
+mens_bathrooms = 5;
+family_bathrooms = 2;
+
+% Avg Time Spent at each bathroom (minutes)
+w_time_spent = 3;
+m_time_spent = 2;
+f_time_spent = 5;
+
+% avg number of patrons during each half time
+num_women = 197;
+
+% RATES ? lambda per patron type
+lamda_womens_br = num_women/90;
+
+% Arrival Times
+w_arrival_times = expon(lamda_womens_br, 115);
+
+% Cummulative arrival times on a timeline
+cummulative_time = cumsum(w_arrival_times);
+
+% depart = ()
+% 2 arrays: departure_times, patron_waited
+% loop though arrivals
+% first arrival to arrival # = bathroom number ?> add 3 to their time
+% if current arrival is < previous departure time
+%     current departure time = previous departure time + 3
+%     patron_waited(i) = 1
+% if current arrival is >= previous departure time
+%     current departure = arrival time + 3 
+%     patron_waited(i) = 0
+departure_times = zeros(1,115);
+patron_waited = zeros(1,115);
+bathroom_units = 1;
+bathroom_occupancy = zeros(1,bathroom_units);
+for i=1:numel(cummulative_time)
+    % first visitors, bathrooms available    
+    if i <= bathroom_units
+        departure_times(i) = cummulative_time(i) + 3;
+        bathroom_occupancy(i) = 1;
+    elseif cummulative_time(i) < departure_times(i-1)
+        departure_times(i) = departure_times(i - 1) + 3;
+        patron_waited(i) = 1;
+    elseif cummulative_time(i) >= departure_times(i - 1)
+        departure_times(i) = cummulative_time(i) + 3;
+    end 
+end
+
+% Departure Times
+w_departure_first = w_arrival_first + w_time_spent;
+
+% does a new patron must wait for a bathroom, if so ? how much time?
+% take lowest value from first_departure women
+% multiply it by the number of people waiting
+
+w_bathrooms_occupied_first = size(w_arrival_first, 2);
+% min_departure_time = min(w_departure_first);
+% time new arrival must wait
+% w_wait_time_first = (w_first_half - w_bathrooms_occupied_first) * avg_departure_time;
+
+    
+
+
+
+
+
+

@@ -1,3 +1,5 @@
+function result = new(num_people, bathrooms, time_spent, bathroom_units)
+
 % Bathroom units
 womens_bathrooms = 7;
 
@@ -36,7 +38,7 @@ arrival_times = arrival_times(1:index-1);
 % 
 departure_times = zeros(1,numel(arrival_times));
 patron_waited = zeros(1,numel(arrival_times));
-bathroom_units = 20;
+bathroom_units = 19;
 temp_depart = zeros(1, bathroom_units);
 for i=1:numel(arrival_times)
     [val, idx] = min(temp_depart);
@@ -59,3 +61,12 @@ for i=1:numel(arrival_times)
 end
 
 disp(sum(patron_waited));
+
+end
+    
+
+
+
+
+
+
